@@ -1,9 +1,10 @@
-# Spring Boot Chatroom
+# Websocket Chatroom
+Chat room application implementation using WebSocket.
 
-Spring Boot websocket chatroom with arbitrary number of rooms.
+## Background
+WebSocket is a communication protocol that makes it possible to establish a two-way communication channel between a
+server and a client.
 
-Forked from the following tutorial:
-https://www.callicoder.com/spring-boot-websocket-chat-example/
 
 Run the server with gradle and visit `localhost:8080`:
 
