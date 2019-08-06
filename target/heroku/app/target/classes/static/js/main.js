@@ -17,28 +17,6 @@ var username = null;
 var roomId = null;
 var topic = null;
 
-function setCookie(cname, cvalue, exdays = 1) {
-  var d = new Date();
-  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-  var expires = "expires=" + d.toUTCString();
-  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-}
-
-function getCookie(cname) {
-  var name = cname + "=";
-  var ca = document.cookie.split(';');
-  for (var i = 0; i < ca.length; i++) {
-    var c = ca[i];
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-  return "";
-}
-
 var colors = [
   '#2196F3', '#32c787', '#00BCD4', '#ff5652',
   '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
@@ -46,7 +24,7 @@ var colors = [
 
 function connect(event) {
   username = nameInput.val().trim();
-  setCookie('name', username);
+  Cookies.set('name', username);
   if (username) {
     usernamePage.classList.add('hidden');
     chatPage.classList.remove('hidden');
@@ -62,7 +40,7 @@ function connect(event) {
 // Leave the current room and enter a new one.
 function enterRoom(newRoomId) {
   roomId = newRoomId;
-  setCookie('roomId', roomId);
+  Cookies.set('roomId', roomId);
   roomIdDisplay.textContent = roomId;
   topic = `/app/chat/${newRoomId}`;
 
@@ -154,12 +132,12 @@ function getAvatarColor(messageSender) {
 }
 
 $(document).ready(function () {
-  var savedName = getCookie('name');
+  var savedName = Cookies.get('name');
   if (savedName) {
     nameInput.val(savedName);
   }
 
-  var savedRoom = getCookie('roomId');
+  var savedRoom = Cookies.get('roomId');
   if (savedRoom) {
     roomInput.val(savedRoom);
   }
