@@ -17,14 +17,36 @@ var username = null;
 var roomId = null;
 var topic = null;
 
+function setCookie(cname, cvalue, exdays = 1) {
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+  var expires = "expires=" + d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+  var name = cname + "=";
+  var ca = document.cookie.split(';');
+  for (var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
 var colors = [
-    '#2196F3', '#32c787', '#00BCD4', '#ff5652',
-    '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
+  '#2196F3', '#32c787', '#00BCD4', '#ff5652',
+  '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
 ];
 
 function connect(event) {
   username = nameInput.val().trim();
-  Cookies.set('name', username);
+  setCookie('name', username);
   if (username) {
     usernamePage.classList.add('hidden');
     chatPage.classList.remove('hidden');
@@ -40,7 +62,7 @@ function connect(event) {
 // Leave the current room and enter a new one.
 function enterRoom(newRoomId) {
   roomId = newRoomId;
-  Cookies.set('roomId', roomId);
+  setCookie('roomId', roomId);
   roomIdDisplay.textContent = roomId;
   topic = `/app/chat/${newRoomId}`;
 
@@ -51,7 +73,7 @@ function enterRoom(newRoomId) {
 
   stompClient.send(`${topic}/addUser`,
     {},
-    JSON.stringify({sender: username, type: 'JOIN'})
+    JSON.stringify({ sender: username, type: 'JOIN' })
   );
 }
 
@@ -125,19 +147,19 @@ function onMessageReceived(payload) {
 function getAvatarColor(messageSender) {
   var hash = 0;
   for (var i = 0; i < messageSender.length; i++) {
-      hash = 31 * hash + messageSender.charCodeAt(i);
+    hash = 31 * hash + messageSender.charCodeAt(i);
   }
   var index = Math.abs(hash % colors.length);
   return colors[index];
 }
 
-$(document).ready(function() {
-  var savedName = Cookies.get('name');
+$(document).ready(function () {
+  var savedName = getCookie('name');
   if (savedName) {
     nameInput.val(savedName);
   }
 
-  var savedRoom = Cookies.get('roomId');
+  var savedRoom = getCookie('roomId');
   if (savedRoom) {
     roomInput.val(savedRoom);
   }
