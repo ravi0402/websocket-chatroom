@@ -132,7 +132,7 @@ function getAvatarColor(messageSender) {
 }
 
 $(document).ready(function () {
-  var savedName = Cookies.get('name');
+  var savedName = Cooki.get('name');
   if (savedName) {
     nameInput.val(savedName);
   }
