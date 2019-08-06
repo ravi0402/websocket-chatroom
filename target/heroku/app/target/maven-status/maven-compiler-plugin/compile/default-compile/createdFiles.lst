@@ -1,6 +1,0 @@
-com/example/springchat/controller/ChatController.class
-com/example/springchat/model/ChatMessage.class
-com/example/springchat/WebSocketConfig.class
-com/example/springchat/controller/WebSocketEventListener.class
-com/example/springchat/SpringChatApplication.class
-com/example/springchat/model/ChatMessage$MessageType.class
